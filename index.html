@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="pt-BR" data-hc="off" data-dys="off" data-sp="off" data-rm="off" data-ln="off">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sensores de luz, radiação solar e aquecimento de piscina</title>
+<meta name="description" content="Laboratório interativo e acessível: radiação eletromagnética, sensores de luz (LDR e fotodiodo), rastreador solar e aplicação ao aquecimento solar de piscina.">
+<meta name="theme-color" content="#14213d">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Sensores de luz, radiação solar e aquecimento de piscina">
+<meta property="og:description" content="Simuladores de LDR, fotodiodo, lei do cosseno, rastreador solar e dimensionamento de aquecimento solar de piscina.">
+<meta property="og:locale" content="pt_BR">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg&#39; viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%E2%98%80%EF%B8%8F%3C/text%3E%3C/svg%3E">
+<style>
+:root{--fs:1;--bg:#f6f7f9;--card:#fff;--ink:#14213d;--mute:#4a5368;--line:#c3c9d6;--sun:#a86b00;--sunb:#e89f00;--teal:#0b6f71;--red:#a3361f;--grid:#e6e9ef}
+@media (prefers-color-scheme:dark){:root{--bg:#0f1624;--card:#17213a;--ink:#e8ecf5;--mute:#b0bad0;--line:#3a4a6e;--sun:#ffb81f;--sunb:#ffb81f;--teal:#4fd0d2;--red:#ff9680;--grid:#25324f}}
+[data-hc=on]{--bg:#000;--card:#000;--ink:#fff;--mute:#fff;--line:#fff;--sun:#ffd400;--sunb:#ffd400;--teal:#00ffff;--red:#ff9d8f;--grid:#666}
+[data-hc=on] button{color:#000!important;background:#00ffff!important;border-color:#fff!important}
+[data-hc=on] button.alt{color:#00ffff!important;background:#000!important;border-color:#00ffff!important}
+html{font-size:calc(100% * var(--fs));scroll-behavior:smooth}
+[data-rm=on]{scroll-behavior:auto}
+[data-rm=on] *{animation:none!important;transition:none!important}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:1.0625rem/1.7 system-ui,-apple-system,"Segoe UI",sans-serif}
+[data-dys=on] body{font-family:Verdana,Tahoma,Arial,sans-serif;letter-spacing:.05em;word-spacing:.14em}
+[data-sp=on] body{line-height:2.1}[data-sp=on] p,[data-sp=on] li{margin-bottom:1.1em}
+[data-ln=on] a{text-decoration:underline!important;text-decoration-thickness:2px;font-weight:700}
+:focus-visible{outline:4px solid var(--sunb);outline-offset:3px}
+.skip{position:absolute;left:8px;top:-60px;background:var(--ink);color:var(--bg);padding:10px 16px;z-index:50;border-radius:6px}
+.skip:focus{top:8px}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+#acc{background:var(--card);border-bottom:2px solid var(--line);padding:8px 16px}
+#acc .in{max-width:980px;margin:auto;display:flex;flex-wrap:wrap;gap:6px;align-items:center}
+#acc b{font-size:.9rem;margin-right:6px}
+#acc button{margin:0;padding:6px 10px;min-height:44px;font-size:.9rem}
+#acc button[aria-pressed=true]{background:var(--sunb);color:#000;border-color:var(--sunb)}
+header{padding:44px 20px 30px;border-bottom:4px solid var(--sunb);max-width:980px;margin:auto}
+h1{font:700 clamp(1.9rem,5vw,3.1rem)/1.15 Georgia,"Times New Roman",serif;margin:0 0 14px;max-width:18em}
+header p{color:var(--mute);max-width:42em;margin:0 0 .6em}
+nav{max-width:980px;margin:0 auto;padding:10px 20px;display:flex;gap:8px;flex-wrap:wrap;background:var(--bg)}
+nav a{color:var(--ink);text-decoration:none;border:2px solid var(--line);padding:10px 14px;min-height:44px;border-radius:6px;font-size:.9rem;display:inline-flex;align-items:center}
+nav a:hover{border-color:var(--teal)}
+main{max-width:980px;margin:auto;padding:0 20px 60px}
+section{margin-top:44px;scroll-margin-top:20px}
+h2{font:700 clamp(1.4rem,3.5vw,1.9rem)/1.25 Georgia,serif;margin:0 0 6px}
+h3{font-size:1.05rem;margin:.6em 0}
+.q{color:var(--teal);font-weight:700;margin:0 0 14px}
+.lab{display:grid;grid-template-columns:1fr 1fr;gap:20px;background:var(--card);border:2px solid var(--line);border-radius:10px;padding:20px;margin:16px 0}
+@media(max-width:760px){.lab{grid-template-columns:1fr}}
+canvas{width:100%;height:auto;display:block;background:var(--card);border-radius:6px}
+label{display:block;font-size:.95rem;color:var(--mute);margin-top:14px}
+label b{color:var(--ink);font-variant-numeric:tabular-nums}
+input[type=range]{width:100%;height:32px;accent-color:var(--teal)}
+input[type=number]{width:100%;font:inherit;padding:8px;border:2px solid var(--line);border-radius:6px;background:var(--card);color:var(--ink);min-height:44px}
+input[type=checkbox]{width:22px;height:22px;vertical-align:middle;margin-right:8px;accent-color:var(--teal)}
+.out{display:flex;gap:10px;flex-wrap:wrap;margin-top:14px}
+.out div{flex:1;min-width:120px;border-left:5px solid var(--sunb);padding:2px 10px;font-size:.85rem;color:var(--mute)}
+.out strong{display:block;font-size:1.25rem;color:var(--ink);font-variant-numeric:tabular-nums}
+button{font:inherit;font-size:.95rem;padding:10px 16px;min-height:44px;border-radius:6px;border:2px solid var(--teal);background:var(--teal);color:#fff;cursor:pointer;margin:10px 8px 0 0}
+button.alt{background:transparent;color:var(--teal)}
+.ans{border-left:5px solid var(--teal);padding:4px 16px;margin:14px 0;background:color-mix(in srgb,var(--teal) 8%,transparent)}
+.pool{border-left-color:var(--sunb);background:color-mix(in srgb,var(--sunb) 10%,transparent)}
+.tw{overflow-x:auto}
+table{width:100%;border-collapse:collapse;font-size:.9rem;margin-top:10px;font-variant-numeric:tabular-nums}
+caption{text-align:left;font-weight:700;padding:4px 0}
+th,td{text-align:left;padding:8px 6px;border-bottom:1px solid var(--line);vertical-align:top}
+pre{background:#101826;color:#e6edfa;padding:14px;border-radius:8px;overflow:auto;font-size:.82rem;line-height:1.5}
+details{border:2px solid var(--line);background:var(--card);border-radius:8px;padding:10px 14px;margin:8px 0}
+summary{cursor:pointer;font-weight:700;min-height:32px}
+.eq{font-family:Georgia,serif;font-style:italic;background:var(--card);border:1px solid var(--line);padding:2px 10px;border-radius:6px;display:inline-block;margin:2px 0}
+.note{font-size:.85rem;color:var(--mute)}
+footer{max-width:980px;margin:auto;padding:20px;color:var(--mute);font-size:.9rem;border-top:1px solid var(--line)}
+dt{font-weight:700;margin-top:.6em}dd{margin:0 0 0 1em}
+</style>
+</head>
+<body>
+<a class="skip" href="#main">Pular para o conteúdo principal</a>
+<div id="sr" class="sr" role="status" aria-live="polite" aria-atomic="true"></div>
+
+<div id="acc" role="region" aria-label="Ferramentas de acessibilidade">
+<div class="in">
+<b>Acessibilidade:</b>
+<button type="button" id="aMais" aria-label="Aumentar tamanho do texto">A+</button>
+<button type="button" id="aMenos" aria-label="Diminuir tamanho do texto">A−</button>
+<button type="button" id="aHc" aria-pressed="false">Alto contraste</button>
+<button type="button" id="aDys" aria-pressed="false">Fonte legível</button>
+<button type="button" id="aSp" aria-pressed="false">Mais espaçamento</button>
+<button type="button" id="aLn" aria-pressed="false">Destacar links</button>
+<button type="button" id="aRm" aria-pressed="false">Reduzir movimento</button>
+<button type="button" id="aVoz" aria-pressed="false">Ler a página em voz alta</button>
+<button type="button" id="aRes" class="alt">Restaurar</button>
+</div>
+</div>
+
+<header>
+<h1>Sensores de luz, radiação solar e aquecimento de piscina</h1>
+<p>A luz do Sol é radiação eletromagnética. Neste laboratório você descobre como sensores medem essa radiação, como um robô a usa para seguir o Sol e como a mesma física ajuda a aquecer uma piscina com energia solar.</p>
+<p>Cada seção responde a uma questão orientadora, e você pode testar a resposta nos simuladores. Todos os simuladores funcionam só com teclado e têm resultados em texto. Este site tem intérprete de Libras (botão azul VLibras) e ferramentas de acessibilidade na barra acima.</p>
+</header>
+
+<nav aria-label="Seções da página">
+<a href="#q1">1. LDR e fotodiodo</a><a href="#q2">2. Posições</a><a href="#q3">3. Rastreador</a><a href="#q4">4. Limitações</a><a href="#q5">5. Aquecimento de piscina</a><a href="#gl">Glossário</a>
+</nav>
+
+<main id="main" tabindex="-1">
+
+<section id="q1" aria-labelledby="h1a">
+<h2 id="h1a">1. Como um LDR ou fotodiodo responde à luz?</h2>
+<p class="q">Mova a irradiância e compare as duas respostas.</p>
+<p>A luz é composta de fótons com energia <span class="eq">E = h·f</span>. Num <b>LDR</b> (sulfeto de cádmio), fótons liberam portadores de carga e a <b>resistência cai</b>, de forma aproximadamente de potência: <span class="eq">R = R₁₀·(L/10)<sup>−γ</sup></span>. Num <b>fotodiodo</b>, cada fóton absorvido gera um par elétron-lacuna e a <b>corrente cresce linearmente</b> com a irradiância: <span class="eq">I = S·A·E</span>.</p>
+<div class="lab">
+<div><canvas id="c1" width="600" height="340" role="img" aria-label="Gráfico da tensão de saída versus irradiância. A curva do LDR sobe rápido e achata perto de 3,3 volts. A curva do fotodiodo é uma reta crescente."></canvas></div>
+<div>
+<label for="s1e">Irradiância E: <b id="v1e">500</b> W/m² (≈ <span id="v1l"></span> lux)</label>
+<input id="s1e" type="range" min="0" max="100" value="82">
+<label for="s1g">Expoente γ do LDR: <b id="v1g">0,7</b></label>
+<input id="s1g" type="range" min="5" max="9" value="7">
+<div class="out" aria-live="off">
+<div>Resistência do LDR<strong id="o1r"></strong></div>
+<div>Tensão (divisor 10 kΩ)<strong id="o1v"></strong></div>
+<div>Fotodiodo (1 kΩ)<strong id="o1p"></strong></div>
+</div>
+<p class="note">LDR em divisor de tensão com 10 kΩ a 3,3 V; fotodiodo com resistor de 1 kΩ (S ≈ 0,5 A/W, A = 5 mm²). Valores típicos e ilustrativos.</p>
+</div>
+</div>
+<div class="ans"><h3>Resposta</h3>O LDR responde de forma <b>não linear</b>: é sensível a pouca luz e satura rápido com muita. O fotodiodo responde de forma <b>linear</b> e rápida (microssegundos, contra dezenas de milissegundos do LDR), o que o torna melhor para medir.</div>
+</section>
+
+<section id="q2" aria-labelledby="h2a">
+<h2 id="h2a">2. Como comparar a intensidade luminosa em diferentes posições?</h2>
+<p class="q">Varie o ângulo e a distância, registre medições e compare.</p>
+<p>Duas leis geométricas dominam: a <b>lei do cosseno de Lambert</b>, <span class="eq">E = E₀·cos θ</span> (θ é o ângulo entre a luz e a normal do sensor), e a <b>lei do inverso do quadrado</b> para uma lâmpada próxima, <span class="eq">E ∝ 1/d²</span>. Para comparar posições, use o mesmo sensor, a mesma escala e registre cada condição.</p>
+<div class="lab">
+<div><canvas id="c2" width="600" height="300" role="img" aria-label="Esquema: raios de luz chegam a uma placa sensora inclinada. Quanto maior a inclinação, menor a irradiância medida."></canvas></div>
+<div>
+<label for="s2a">Ângulo de incidência θ: <b id="v2a">0</b>°</label>
+<input id="s2a" type="range" min="0" max="89" value="0">
+<label for="s2d">Distância da lâmpada d: <b id="v2d">0,50</b> m</label>
+<input id="s2d" type="range" min="20" max="200" value="50">
+<div class="out"><div>Irradiância medida<strong id="o2e"></strong></div><div>Fração do máximo<strong id="o2f"></strong></div></div>
+<button type="button" id="b2r">Registrar medição</button><button type="button" id="b2c" class="alt">Limpar tabela</button>
+</div>
+</div>
+<div class="tw"><table><caption>Medições registradas</caption><thead><tr><th scope="col">Nº</th><th scope="col">θ</th><th scope="col">d (m)</th><th scope="col">E (W/m²)</th><th scope="col">Relativa à maior</th></tr></thead><tbody id="t2"><tr><td colspan="5">Nenhuma medição registrada ainda.</td></tr></tbody></table></div>
+<div class="ans"><h3>Resposta</h3>Compare sempre sob a mesma geometria, ou corrija pelo cosseno e pela distância. Um sensor inclinado 60° lê só metade (cos 60° = 0,5) mesmo com a mesma luz. Em robótica, sensores a ângulos diferentes leem valores diferentes, e é essa diferença que orienta o robô.</div>
+<div class="ans pool"><h3>Conexão com a piscina</h3>A lei do cosseno vale para o coletor solar: uma placa inclinada fora do ideal recebe menos energia. No Brasil, costuma-se inclinar o coletor para o norte, com ângulo próximo da latitude local mais alguns graus. Em Curitiba, isso fica em torno de 25° a 30°.</div>
+</section>
+
+<section id="q3" aria-labelledby="h3a">
+<h2 id="h3a">3. É possível identificar o melhor posicionamento de um coletor solar?</h2>
+<p class="q">Sim, e um robô faz isso sozinho. Mova o Sol e veja o rastreador seguir.</p>
+<p>Dois LDRs (ou fotodiodos) ficam inclinados ±20° em relação à normal do painel. Se o Sol está alinhado, os dois leem igual. Se não, o <b>erro</b> <span class="eq">e = L<sub>dir</sub> − L<sub>esq</sub></span> indica para que lado girar: <span class="eq">φ ← φ + K·e</span>. Outra opção é uma <b>varredura</b>, que mede a irradiância em vários ângulos e escolhe o máximo.</p>
+<div class="lab">
+<div><canvas id="c3" width="600" height="320" role="img" aria-label="Rastreador solar: o painel com dois sensores gira para ficar de frente para o Sol. O Sol e o ângulo do painel aparecem nos resultados ao lado."></canvas></div>
+<div>
+<label for="s3a">Posição do Sol α: <b id="v3a">35</b>° (negativo = esquerda, positivo = direita)</label>
+<input id="s3a" type="range" min="-80" max="80" value="35">
+<label for="k3"><input type="checkbox" id="k3" checked> Rastreamento automático (malha fechada)</label>
+<div class="out"><div>Sensor esq.<strong id="o3l"></strong></div><div>Sensor dir.<strong id="o3r"></strong></div><div>Erro e<strong id="o3e"></strong></div></div>
+<div class="out"><div>Ângulo do painel φ<strong id="o3p"></strong></div><div>Potência relativa<strong id="o3w"></strong></div></div>
+<button type="button" id="b3">Fazer varredura</button>
+<canvas id="c3b" width="600" height="150" style="margin-top:10px" role="img" aria-label="Gráfico da varredura: potência em função do ângulo do painel, com o máximo marcado."></canvas>
+<p id="t3" class="note" aria-live="off">Resultado da varredura: ainda não executada.</p>
+</div>
+</div>
+<details><summary>Código de exemplo (Arduino)</summary>
+<pre>const int LDR_ESQ = A0, LDR_DIR = A1;
+const float K = 0.02;       // ganho proporcional
+float angulo = 90;          // posição do servo (graus)
+#include &lt;Servo.h&gt;
+Servo servo;
+
+void setup() { servo.attach(9); }
+
+void loop() {
+  int esq = analogRead(LDR_ESQ);
+  int dir = analogRead(LDR_DIR);
+  int erro = dir - esq;               // positivo: Sol à direita
+  if (abs(erro) &gt; 20) {               // zona morta contra ruído
+    angulo = constrain(angulo + K * erro, 10, 170);
+    servo.write(angulo);
+  }
+  delay(20);
+}</pre></details>
+<div class="ans"><h3>Resposta</h3>É possível, de duas formas: por <b>diferença entre sensores</b> (rastreamento contínuo, simples e barato) ou por <b>varredura</b> (busca do máximo). Ambos acham a direção do Sol, mas não dizem quanta energia o coletor recebe.</div>
+<div class="ans pool"><h3>Conexão com a piscina</h3>Coletores de piscina costumam ser fixos, porque um rastreador custa mais do que o ganho que traria. A ideia do sensor, porém, é usada: um <b>controlador diferencial</b> compara a temperatura do coletor com a da água e liga a bomba só quando o coletor está bem mais quente, por exemplo 8 °C acima, desligando com diferença de 3 °C. É a mesma lógica do erro <i>e</i>, com histerese contra liga-desliga constante.</div>
+</section>
+
+<section id="q4" aria-labelledby="h4a">
+<h2 id="h4a">4. Quais são as limitações desses sensores para medir a energia solar?</h2>
+<p class="q">Ative e desative sensores para ver quanto do espectro solar cada um enxerga.</p>
+<p>Um sensor mede uma grandeza elétrica, não energia. A radiação solar vai de ~300 nm a ~2500 nm, mas cada sensor responde só a uma faixa. A fração mostrada é a razão entre a área sob (espectro solar × resposta do sensor) e a área do espectro solar, uma estimativa ilustrativa.</p>
+<div class="lab">
+<div><canvas id="c4" width="600" height="340" role="img" aria-label="Espectro solar de 300 a 2500 nanômetros e a faixa em que cada sensor responde. O LDR cobre só a região visível; o silício vai até cerca de 1100 nanômetros."></canvas></div>
+<div>
+<label for="k4l"><input type="checkbox" id="k4l" checked> LDR (CdS, pico ≈ 540 nm)</label>
+<label for="k4s"><input type="checkbox" id="k4s" checked> Fotodiodo de silício (até ≈ 1100 nm)</label>
+<div class="out"><div>LDR vê<strong id="o4l"></strong></div><div>Silício vê<strong id="o4s"></strong></div></div>
+<p class="note">Para medir energia de verdade usa-se um <b>piranômetro</b>, com resposta quase plana em todo o espectro solar.</p>
+</div>
+</div>
+<details open><summary>Principais limitações</summary>
+<ul>
+<li><b>Resposta espectral limitada:</b> o sensor ignora parte da energia (infravermelho, ultravioleta).</li>
+<li><b>Não linearidade e saturação:</b> o LDR é logarítmico; o fotodiodo satura no circuito de leitura.</li>
+<li><b>Temperatura:</b> corrente de escuro e sensibilidade variam com a temperatura.</li>
+<li><b>Resposta angular:</b> a leitura depende do cosseno e do encapsulamento do sensor.</li>
+<li><b>Lentidão e histerese do LDR:</b> a leitura demora a estabilizar.</li>
+<li><b>Luz difusa e refletida:</b> nuvens e o entorno alteram a leitura sem mudar a direção do Sol.</li>
+<li><b>Calibração:</b> sem padrão, os valores só servem para comparação relativa.</li>
+</ul></details>
+<div class="ans"><h3>Resposta</h3>LDRs e fotodiodos são ótimos para <b>detectar direção e comparar intensidades relativas</b>, mas não medem a energia solar com exatidão. Para energia absoluta, é preciso um instrumento calibrado.</div>
+<div class="ans pool"><h3>Conexão com a piscina</h3>O coletor de piscina faz o oposto do sensor: é escuro e absorve quase todo o espectro, inclusive o infravermelho, e transforma essa energia em calor. Já a água da piscina absorve bem o infravermelho nos primeiros centímetros, e é por isso que ela esquece o calor rápido por evaporação se estiver sem capa.</div>
+</section>
+
+<section id="q5" aria-labelledby="h5a">
+<h2 id="h5a">5. Como esses conceitos se aplicam ao aquecimento solar de piscina?</h2>
+<p class="q">Dimensione um sistema: quanta energia a piscina precisa e quanto tempo o coletor leva para fornecê-la.</p>
+<p>O coletor converte radiação em calor com potência <span class="eq">P = η·E·A·cos θ</span> (η é a eficiência, E a irradiância, A a área do coletor e θ o ângulo de incidência). A água precisa de energia <span class="eq">Q = m·c·ΔT</span>, com c = 4186 J/(kg·°C). O tempo de aquecimento é aproximadamente <span class="eq">t = Q / P</span>, sem contar as perdas.</p>
+<div class="lab">
+<div>
+<label for="p1">Superfície da piscina (m²)</label><input id="p1" type="number" min="1" max="500" step="1" value="32">
+<label for="p2">Profundidade média (m)</label><input id="p2" type="number" min="0.5" max="4" step="0.1" value="1.4">
+<label for="p3">Aumento desejado de temperatura ΔT (°C)</label><input id="p3" type="number" min="1" max="15" step="1" value="4">
+<label for="p4">Área de coletores (m²)</label><input id="p4" type="number" min="1" max="500" step="1" value="20">
+</div>
+<div>
+<label for="p5">Irradiância E: <b id="p5v">800</b> W/m²</label><input id="p5" type="range" min="100" max="1000" step="50" value="800">
+<label for="p6">Eficiência η do coletor: <b id="p6v">55</b> %</label><input id="p6" type="range" min="20" max="85" step="5" value="55">
+<label for="p7">Ângulo de incidência θ: <b id="p7v">0</b>°</label><input id="p7" type="range" min="0" max="80" step="5" value="0">
+<div class="out" role="group" aria-label="Resultados do dimensionamento">
+<div>Energia necessária<strong id="r1"></strong></div><div>Potência do coletor<strong id="r2"></strong></div>
+<div>Horas de sol pleno<strong id="r3"></strong></div><div>Dias (5 h/dia)<strong id="r4"></strong></div>
+</div>
+<p class="note">Modelo simplificado, sem perdas por evaporação, vento e convecção. Na prática, o tempo é maior, e capa térmica reduz muito as perdas. Use como estimativa didática.</p>
+</div>
+</div>
+<div class="tw"><table><caption>Do conceito físico à piscina</caption><thead><tr><th scope="col">Conceito</th><th scope="col">Aplicação no aquecimento de piscina</th></tr></thead><tbody>
+<tr><th scope="row">Radiação eletromagnética</th><td>O Sol entrega calor por radiação, sem precisar de meio material.</td></tr>
+<tr><th scope="row">Lei do cosseno</th><td>Inclinação e orientação do coletor definem quanta energia ele recebe.</td></tr>
+<tr><th scope="row">Sensor de luz (LDR/fotodiodo)</th><td>Mede a irradiância para decidir quando ligar a bomba.</td></tr>
+<tr><th scope="row">Controle com erro e histerese</th><td>Termostato diferencial: liga com coletor bem mais quente que a água.</td></tr>
+<tr><th scope="row">Resposta espectral</th><td>Coletor escuro absorve o espectro todo; sensor vê só uma parte.</td></tr>
+<tr><th scope="row">Calibração e medida</th><td>Piranômetro e termômetros permitem avaliar a eficiência real.</td></tr>
+</tbody></table></div>
+<div class="ans pool"><h3>Resposta</h3>Sim: os mesmos princípios que explicam sensores e rastreadores explicam o aquecimento solar de piscina. Os sensores e a lógica de controle decidem <b>quando</b> aquecer, e a física da radiação define <b>quanto</b> se consegue aquecer. Para aumentar o ganho: coletor bem orientado, capa térmica à noite, bomba controlada por sensores de temperatura e medidas para comparar antes e depois.</div>
+</section>
+
+<section id="gl" aria-labelledby="hgl">
+<h2 id="hgl">Glossário</h2>
+<dl>
+<dt>Irradiância</dt><dd>Potência da radiação por metro quadrado (W/m²).</dd>
+<dt>LDR</dt><dd>Resistor que muda de valor com a luz.</dd>
+<dt>Fotodiodo</dt><dd>Componente que gera corrente quando recebe luz.</dd>
+<dt>Piranômetro</dt><dd>Instrumento calibrado que mede radiação solar.</dd>
+<dt>Histerese</dt><dd>Ligar e desligar em valores diferentes para evitar oscilação.</dd>
+<dt>Coletor solar</dt><dd>Placa escura que absorve a radiação e aquece a água que passa por ela.</dd>
+</dl>
+</section>
+</main>
+
+<footer>Trabalho de Física, Tecnociência, Robótica e Programação: energia solar e aquecimento da piscina. Os modelos são simplificados e os valores são típicos, para fins didáticos. Para publicar: GitHub Pages, com este arquivo como index.html na raiz do repositório. Atalho: pressione Tab no início da página para pular direto ao conteúdo.</footer>
+
+<noscript><p style="max-width:980px;margin:auto;padding:20px">Os simuladores precisam de JavaScript. O texto e as respostas de cada seção continuam disponíveis.</p></noscript>
+
+<div vw class="enabled"><div vw-access-button class="active"></div><div vw-plugin-wrapper><div class="vw-plugin-top-wrapper"></div></div></div>
+<script src="https://vlibras.gov.br/app/vlibras-plugin.js"></script&gt;
+<script>try{new window.VLibras.Widget('https://vlibras.gov.br/app&#39;)}catch(e){}</script>
+
+<script>
+const $=id=>document.getElementById(id);
+const css=n=>getComputedStyle(document.documentElement).getPropertyValue(n).trim();
+const fmt=(x,d=2)=>x.toLocaleString('pt-BR',{maximumFractionDigits:d,minimumFractionDigits:d});
+const R=document.documentElement;
+let tm;const say=t=>{clearTimeout(tm);tm=setTimeout(()=>{$('sr').textContent=t},700)};
+
+/* ---- acessibilidade ---- */
+let st={fs:1,hc:'off',dys:'off',sp:'off',ln:'off',rm:matchMedia('(prefers-reduced-motion:reduce)').matches?'on':'off'};
+try{Object.assign(st,JSON.parse(localStorage.getItem('acc')||'{}'))}catch(e){}
+function applyAcc(){R.style.setProperty('--fs',st.fs);['hc','dys','sp','ln','rm'].forEach(k=>{R.dataset[k]=st[k];const b=$('a'+k[0].toUpperCase()+k.slice(1));if(b)b.setAttribute('aria-pressed',st[k]==='on')});
+ try{localStorage.setItem('acc',JSON.stringify(st))}catch(e){}
+ if(typeof redraw==='function')redraw()}
+const tog=k=>{st[k]=st[k]==='on'?'off':'on';applyAcc();say('Opção '+(st[k]==='on'?'ativada':'desativada'))};
+$('aMais').onclick=()=>{st.fs=Math.min(1.8,+(st.fs+.1).toFixed(1));applyAcc();say('Texto maior')};
+$('aMenos').onclick=()=>{st.fs=Math.max(.8,+(st.fs-.1).toFixed(1));applyAcc();say('Texto menor')};
+['hc','dys','sp','ln','rm'].forEach(k=>$('a'+k[0].toUpperCase()+k.slice(1)).onclick=()=>tog(k));
+$('aRes').onclick=()=>{st={fs:1,hc:'off',dys:'off',sp:'off',ln:'off',rm:'off'};applyAcc();say('Configurações restauradas')};
+let falando=false;
+$('aVoz').onclick=()=>{const s=window.speechSynthesis;if(!s){say('Seu navegador não tem leitura em voz alta.');return}
+ if(falando){s.cancel();falando=false;$('aVoz').setAttribute('aria-pressed','false');return}
+ const u=new SpeechSynthesisUtterance(document.querySelector('header').innerText+' '+$('main').innerText);u.lang='pt-BR';
+ u.onend=()=>{falando=false;$('aVoz').setAttribute('aria-pressed','false')};s.cancel();s.speak(u);falando=true;$('aVoz').setAttribute('aria-pressed','true')};
+
+function axes(c,x,y,w,h,xl,yl){c.strokeStyle=css('--grid');c.fillStyle=css('--mute');c.font='14px system-ui';c.lineWidth=1;
+ for(let i=0;i<=4;i++){let yy=y+h-h*i/4;c.beginPath();c.moveTo(x,yy);c.lineTo(x+w,yy);c.stroke()}
+ c.strokeStyle=css('--mute');c.strokeRect(x,y,w,h);c.fillText(xl,x+w/2-70,y+h+34);c.save();c.translate(x-44,y+h/2+40);c.rotate(-Math.PI/2);c.fillText(yl,0,0);c.restore()}
+
+/* ---- 1 ---- */
+function sol1(){return Math.pow(10,$('s1e').value/100*3)}
+function ldrV(E,g){const lux=E*110,Rr=20000*Math.pow(lux/10,-g);return[Rr,3.3*10000/(Rr+10000)]}
+function phV(E){return Math.min(0.5*5e-6*E*1000,3.3)}
+function draw1(){const E=sol1(),g=$('s1g').value/10,c=$('c1').getContext('2d');c.clearRect(0,0,600,340);
+ const X=60,Y=15,W=520,H=270;axes(c,X,Y,W,H,'Irradiância (W/m², escala log)','Tensão (V)');
+ const px=e=>X+W*Math.log10(e)/3,py=v=>Y+H-H*v/3.3;
+ for(let i=0;i<=3;i++){c.fillStyle=css('--mute');c.fillText(Math.pow(10,i),px(Math.pow(10,i))-8,Y+H+16)}
+ for(let i=0;i<=3;i++)c.fillText(i===0?'0':fmt(i*1.1,1),X-34,py(i*1.1)+4);
+ [[ev=>ldrV(ev,g)[1],'--teal','LDR',[]],[phV,'--sun','Fotodiodo',[10,6]]].forEach(([f,col,nm,dash],k)=>{c.strokeStyle=css(col);c.lineWidth=3;c.setLineDash(dash);c.beginPath();
+  for(let i=0;i<=120;i++){const e=Math.pow(10,i/40);const p=[px(e),py(f(e))];i?c.lineTo(...p):c.moveTo(...p)}c.stroke();c.setLineDash([]);
+  c.fillStyle=css(col);c.fillRect(X+12,Y+10+k*20,14,4);c.fillText(nm,X+32,Y+16+k*20)});
+ c.strokeStyle=css('--red');c.lineWidth=2;c.setLineDash([5,4]);c.beginPath();c.moveTo(px(E),Y);c.lineTo(px(E),Y+H);c.stroke();c.setLineDash([]);
+ const[Rr,V]=ldrV(E,g);$('v1e').textContent=fmt(E,0);$('v1l').textContent=fmt(E*110,0);$('v1g').textContent=fmt(g,1);
+ $('o1r').textContent=Rr>=1000?fmt(Rr/1000,1)+' kΩ':fmt(Rr,0)+' Ω';$('o1v').textContent=fmt(V)+' V';$('o1p').textContent=fmt(phV(E))+' V';
+ say('Irradiância '+fmt(E,0)+' watts por metro quadrado. LDR: '+fmt(V)+' volts. Fotodiodo: '+fmt(phV(E))+' volts.')}
+['s1e','s1g'].forEach(i=>$(i).oninput=draw1);
+
+/* ---- 2 ---- */
+let log2=[];
+function E2(){const a=+$('s2a').value,d=+$('s2d').value/100;return[a,d,500*Math.pow(0.5/d,2)*Math.cos(a*Math.PI/180)]}
+function draw2(){const[a,d,E]=E2(),c=$('c2').getContext('2d');c.clearRect(0,0,600,300);
+ const cx=330,cy=215;c.strokeStyle=css('--sun');c.lineWidth=3;
+ for(let i=-2;i<=2;i++){c.beginPath();c.moveTo(cx-170+i*30,10);c.lineTo(cx+i*30,cy-10);c.stroke();c.fillStyle=css('--sun');c.beginPath();c.arc(cx+i*30,cy-10,3,0,7);c.fill()}
+ c.save();c.translate(cx,cy);c.rotate(a*Math.PI/180);c.fillStyle=css('--teal');c.fillRect(-90,-6,180,12);
+ c.strokeStyle=css('--ink');c.setLineDash([4,4]);c.lineWidth=1.5;c.beginPath();c.moveTo(0,0);c.lineTo(0,-70);c.stroke();c.restore();
+ c.fillStyle=css('--mute');c.font='14px system-ui';c.fillText('normal do sensor',cx+8,cy-70);c.fillText('raios de luz',20,30);
+ c.fillStyle=css('--ink');c.fillRect(40,270,Math.min(E/5*0.5,320),12);c.fillStyle=css('--mute');c.fillText('E',20,281);
+ $('v2a').textContent=a;$('v2d').textContent=fmt(d);$('o2e').textContent=fmt(E,0)+' W/m²';$('o2f').textContent=fmt(E/500*100,0)+' %';
+ say('Ângulo '+a+' graus, distância '+fmt(d)+' metros: '+fmt(E,0)+' watts por metro quadrado.')}
+['s2a','s2d'].forEach(i=>$(i).oninput=draw2);
+function tab2(){if(!log2.length){$('t2').innerHTML='<tr><td colspan="5">Nenhuma medição registrada ainda.</td></tr>';return}
+ const m=Math.max(...log2.map(r=>r[2]));$('t2').innerHTML=log2.map((r,i)=>`<tr><td>${i+1}</td><td>${r[0]}°</td><td>${fmt(r[1])}</td><td>${fmt(r[2],0)}</td><td>${fmt(r[2]/m*100,0)} %</td></tr>`).join('')}
+$('b2r').onclick=()=>{log2.push(E2());tab2();say('Medição '+log2.length+' registrada.')};$('b2c').onclick=()=>{log2=[];tab2();say('Tabela limpa.')};
+
+/* ---- 3 ---- */
+let phi=-40,sweep=null,trace=[],last=performance.now();
+const resp=(al,ps)=>Math.max(0,Math.cos((al-ps)*Math.PI/180));
+const clampP=p=>Math.max(-85,Math.min(85,p));
+function ctrl(dt){const al=+$('s3a').value,e=resp(al,phi+20)-resp(al,phi-20);phi=clampP(phi+150*e*dt)}
+function draw3(){const al=+$('s3a').value,c=$('c3').getContext('2d');c.clearRect(0,0,600,320);
+ const ox=300,oy=270,sx=ox+220*Math.sin(al*Math.PI/180),sy=oy-220*Math.cos(al*Math.PI/180);
+ c.strokeStyle=css('--sun');c.lineWidth=2.5;c.setLineDash([6,5]);c.beginPath();c.moveTo(sx,sy);c.lineTo(ox,oy);c.stroke();c.setLineDash([]);
+ c.fillStyle=css('--sun');c.beginPath();c.arc(sx,sy,18,0,7);c.fill();
+ c.strokeStyle=css('--grid');c.beginPath();c.arc(ox,oy,220,Math.PI*1.05,Math.PI*1.95);c.stroke();
+ c.save();c.translate(ox,oy);c.fillStyle=css('--ink');c.fillRect(-12,-4,24,34);c.rotate(phi*Math.PI/180);
+ c.fillStyle=css('--teal');c.fillRect(-70,-14,140,10);c.fillStyle=css('--ink');c.beginPath();c.arc(-60,-18,6,0,7);c.arc(60,-18,6,0,7);c.fill();
+ c.strokeStyle=css('--mute');c.lineWidth=1.5;c.beginPath();c.moveTo(0,-14);c.lineTo(0,-70);c.stroke();c.restore();
+ c.fillStyle=css('--mute');c.font='14px system-ui';c.fillText('Sol',sx+22,sy+4);c.fillText('painel + 2 sensores',ox-66,oy+50)}
+function report3(){const al=+$('s3a').value;say('Sol em '+al+' graus. Painel em '+fmt(phi,0)+' graus. Potência relativa '+fmt(resp(al,phi)*100,0)+' por cento.')}
+function loop(t){const dt=Math.min((t-last)/1000,.05);last=t;const al=+$('s3a').value;
+ const L=resp(al,phi-20),Rr=resp(al,phi+20),e=Rr-L;
+ if(sweep){phi+=70*dt;trace.push([phi,resp(al,phi)]);if(phi>=80)endSweep()}
+ else if($('k3').checked&&R.dataset.rm!=='on'){ctrl(dt)}
+ $('v3a').textContent=al;$('o3l').textContent=fmt(L);$('o3r').textContent=fmt(Rr);$('o3e').textContent=fmt(e);
+ $('o3p').textContent=fmt(phi,1)+'°';$('o3w').textContent=fmt(resp(al,phi)*100,0)+' %';draw3();requestAnimationFrame(loop)}
+function endSweep(){const b=trace.reduce((m,p)=>p[1]>m[1]?p:m);phi=b[0];sweep=null;drawTrace(b)}
+function settle(){if(R.dataset.rm==='on'&&$('k3').checked){for(let i=0;i<400;i++)ctrl(.02)}report3()}
+$('s3a').oninput=settle;$('k3').onchange=settle;
+$('b3').onclick=()=>{const al=+$('s3a').value;trace=[];
+ if(R.dataset.rm==='on'){for(let p=-80;p<=80;p++)trace.push([p,resp(al,p)]);phi=-80;endSweep();report3()}
+ else{phi=-80;sweep=true;say('Varredura em andamento.')}};
+function drawTrace(b){const c=$('c3b').getContext('2d');c.clearRect(0,0,600,150);axes(c,50,8,520,100,'Ângulo do painel φ (graus)','Potência');
+ c.strokeStyle=css('--teal');c.lineWidth=2.5;c.beginPath();trace.forEach((p,i)=>{const x=50+520*(p[0]+80)/160,y=108-100*p[1];i?c.lineTo(x,y):c.moveTo(x,y)});c.stroke();
+ c.fillStyle=css('--red');c.beginPath();c.arc(50+520*(b[0]+80)/160,108-100*b[1],6,0,7);c.fill();c.fillStyle=css('--mute');c.fillText('máximo em '+fmt(b[0],0)+'°',60,24);
+ const t='Resultado da varredura: potência máxima com o painel em '+fmt(b[0],0)+' graus.';$('t3').textContent=t;say(t)}
+
+/* ---- 4 ---- */
+const lam=[];for(let l=300;l<=2500;l+=10)lam.push(l);
+const planck=l=>{const m=l*1e-9;return 1/(Math.pow(m,5)*(Math.exp(1.4388e-2/(m*5778))-1))};
+const sun=lam.map(planck),smax=Math.max(...sun);
+const rL=l=>Math.exp(-Math.pow((l-540)/70,2)/2);
+const rS=l=>l<350||l>1100?0:l<=950?0.15+0.85*(l-350)/600:1-(l-950)/150;
+function frac(r){let a=0,b=0;lam.forEach((l,i)=>{a+=sun[i]*r(l);b+=sun[i]});return a/b}
+function draw4(){const c=$('c4').getContext('2d');c.clearRect(0,0,600,340);const X=50,Y=15,W=530,H=270;axes(c,X,Y,W,H,'Comprimento de onda (nm)','Intensidade relativa');
+ const px=l=>X+W*(l-300)/2200,py=v=>Y+H-H*v;c.fillStyle=css('--mute');[500,1000,1500,2000,2500].forEach(l=>c.fillText(l,px(l)-14,Y+H+16));
+ const plot=(f,col,fill,dash)=>{c.beginPath();lam.forEach((l,i)=>{const p=[px(l),py(f(l,i))];i?c.lineTo(...p):c.moveTo(...p)});c.strokeStyle=css(col);c.lineWidth=2.5;c.setLineDash(dash||[]);c.stroke();c.setLineDash([]);
+  if(fill){c.lineTo(px(2500),py(0));c.lineTo(px(300),py(0));c.globalAlpha=.15;c.fillStyle=css(col);c.fill();c.globalAlpha=1}};
+ plot((l,i)=>sun[i]/smax,'--sun',true);
+ if($('k4l').checked)plot(rL,'--teal',true);
+ if($('k4s').checked)plot(rS,'--red',true,[10,6]);
+ c.fillStyle=css('--sun');c.fillText('Espectro solar',px(1400),py(.45));
+ $('o4l').textContent=fmt(frac(rL)*100,0)+' %';$('o4s').textContent=fmt(frac(rS)*100,0)+' %';
+ say('LDR vê '+fmt(frac(rL)*100,0)+' por cento do espectro solar. Silício vê '+fmt(frac(rS)*100,0)+' por cento.')}
+['k4l','k4s'].forEach(i=>$(i).onchange=draw4);
+
+/* ---- 5: piscina ---- */
+function pool(){const g=i=>+$(i).value,A=g('p1'),h=g('p2'),dT=g('p3'),col=g('p4'),E=g('p5'),eta=g('p6')/100,th=g('p7');
+ $('p5v').textContent=E;$('p6v').textContent=g('p6');$('p7v').textContent=th;
+ const V=A*h,Q=V*dT*1.1628,P=eta*E*col*Math.cos(th*Math.PI/180)/1000,hrs=P>0?Q/P:0;
+ $('r1').textContent=fmt(Q,0)+' kWh';$('r2').textContent=fmt(P,1)+' kW';$('r3').textContent=fmt(hrs,1)+' h';$('r4').textContent=fmt(hrs/5,1);
+ say('Piscina de '+fmt(V,0)+' metros cúbicos. Energia necessária '+fmt(Q,0)+' quilowatts-hora. Coletor fornece '+fmt(P,1)+' quilowatts. Cerca de '+fmt(hrs/5,1)+' dias de sol.')}
+['p1','p2','p3','p4','p5','p6','p7'].forEach(i=>$(i).oninput=pool);
+
+function redraw(){draw1();draw2();draw4();if(trace.length&&!sweep)drawTrace(trace.reduce((m,p)=>p[1]>m[1]?p:m))}
+applyAcc();draw1();draw2();draw4();pool();$('sr').textContent='';requestAnimationFrame(loop);
+matchMedia('(prefers-color-scheme:dark)').onchange=redraw;
+</script>
+</body>
+</html>
